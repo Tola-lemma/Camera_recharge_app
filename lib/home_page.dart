@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import './text_style.dart';
+import './camera_recharge.dart';
+import './text_recognizer.dart';
+import './about_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -75,22 +79,27 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             'Camera Recharge App',
                             style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
+                                textStyle: CustomTextStyle.title),
                           ),
                         ],
                       ),
                     ),
-                    const ListTile(
+                    ListTile(
                       leading: Icon(
                         Icons.camera_rounded,
                         color: Color(0xFF010000),
                       ),
-                      title: Text(
-                        'Recharge',
-                        style: CustomTextStyle.subtitle,
+                      title: GestureDetector(
+                        child: Text(
+                          'Recharge',
+                          style: CustomTextStyle.subtitle,
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (builder) => CameraRechargePage()));
+                        },
                       ),
                       subtitle: Text(
                           'Recharge your account using camera and scan from gallerry  or camera ',
@@ -103,14 +112,22 @@ class _HomePageState extends State<HomePage> {
                       tileColor: Color(0xFFF5F5F5),
                       dense: false,
                     ),
-                    const ListTile(
+                    ListTile(
                       leading: Icon(
                         Icons.store_sharp,
                         color: Colors.black,
                       ),
-                      title: Text(
-                        'Text Recognition',
-                        style: CustomTextStyle.subtitle,
+                      title: GestureDetector(
+                        child: Text(
+                          'Text Recognition',
+                          style: CustomTextStyle.subtitle,
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (builder) => TextRecognition()));
+                        },
                       ),
                       subtitle: Text(
                         'Text recognitions',
@@ -124,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                       tileColor: Color(0xFFF5F5F5),
                       dense: false,
                     ),
-                    const ListTile(
+                    ListTile(
                       leading: Icon(
                         Icons.account_balance,
                         color: Colors.black,
@@ -145,14 +162,22 @@ class _HomePageState extends State<HomePage> {
                       tileColor: Color(0xFFF5F5F5),
                       dense: false,
                     ),
-                    const ListTile(
+                    ListTile(
                       leading: Icon(
                         Icons.contact_mail,
                         color: Color(0xFF050000),
                       ),
-                      title: Text(
-                        'About',
-                        style: CustomTextStyle.subtitle,
+                      title: GestureDetector(
+                        child: Text(
+                          'About',
+                          style: CustomTextStyle.subtitle,
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (builder) => AboutPage()));
+                        },
                       ),
                       trailing: Icon(
                         Icons.arrow_forward_ios,
@@ -200,9 +225,12 @@ class _HomePageState extends State<HomePage> {
                   child: Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(8, 40, 0, 0),
                     child: ElevatedButton.icon(
-                      onPressed: () {
-                        print("check balance");
-                        
+                      onPressed: () async {
+                        try {
+                          await FlutterPhoneDirectCaller.callNumber("*804#");
+                        } catch (e) {
+                          print(e);
+                        }
                       },
                       icon: const Icon(
                         Icons.account_balance,
@@ -228,8 +256,11 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsetsDirectional.fromSTEB(8, 40, 0, 0),
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        print("Recharge Balance");
-                  
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) =>
+                                    const CameraRechargePage()));
                       },
                       icon: const Icon(
                         Icons.camera,
@@ -254,10 +285,11 @@ class _HomePageState extends State<HomePage> {
                   child: Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(8, 40, 0, 0),
                     child: ElevatedButton.icon(
-                      
                       onPressed: () {
-                        print("Text Recognizer");
-                        
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => const TextRecognition()));
                       },
                       icon: const Icon(
                         Icons.store_mall_directory_rounded,
