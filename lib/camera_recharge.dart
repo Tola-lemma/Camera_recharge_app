@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-
+import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 class CameraRechargePage extends StatefulWidget {
   const CameraRechargePage({Key? key}) : super(key: key);
@@ -54,7 +56,7 @@ class _CameraRechargePage extends State<CameraRechargePage> {
                                 borderRadius: BorderRadius.circular(8.0),
                               )),
                           onPressed: () {
-                            
+                            getImage(ImageSource.gallery);
                           },
                           child: Container(
                             margin: const EdgeInsets.symmetric(
@@ -90,7 +92,7 @@ class _CameraRechargePage extends State<CameraRechargePage> {
                                 borderRadius: BorderRadius.circular(8.0)),
                           ),
                           onPressed: () {
-                            
+                            getImage(ImageSource.camera);
                           },
                           child: Container(
                             margin: const EdgeInsets.symmetric(
@@ -129,4 +131,52 @@ class _CameraRechargePage extends State<CameraRechargePage> {
     );
   }
 
+  void getImage(ImageSource source) async {
+    try {
+      final pickedImage = await ImagePicker().pickImage(
+        source: source,
+        maxHeight: 240,
+        maxWidth: 480,
+      );
+      if (pickedImage != null) {
+        textScanning = true;
+        imageFile = pickedImage;
+        setState(() {});
+        getRecognisedText(pickedImage);
+      }
+    } catch (e) {
+      textScanning = false;
+      imageFile = null;
+      scannedText = "Error occured while scanning";
+      setState(() {});
+    }
+  }
+
+  void getRecognisedText(XFile image) async {
+    final inputImage = InputImage.fromFilePath(image.path);
+    final textDetector = GoogleMlKit.vision.textRecognizer();
+    RecognizedText recognisedText = await textDetector.processImage(inputImage);
+    await textDetector.close();
+    scannedText = "";
+    for (TextBlock block in recognisedText.blocks) {
+      for (TextLine line in block.lines) {
+        scannedText = "$scannedText${line.text}\n";
+      }
+    }
+    scannedText = scannedText.replaceAll(RegExp(r'[^0-9]'), '');
+    if (scannedText.trim().length == 14) {
+      // await FlutterPhoneDirectCaller.callNumber('*805*$scannedText#');
+      scannedText = "charged";
+    }
+    //  else {
+    //   scannedText = "Error please scan again.";
+    // }
+    textScanning = false;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 }
