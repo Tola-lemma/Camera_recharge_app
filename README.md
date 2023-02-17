@@ -1,7 +1,7 @@
-#  Camera Recharge Mobile App
+#  Camera Recharge Mobile card
 
-<p>The Camera Recharge Mobile App is a mobile application built with Flutter that allows users to check their balance and recharge their mobile account using their smartphone camera and recognize text 
- using recognition technology. </p>
+<p>The Camera Recharge Mobile card is a mobile application built with Flutter that allows users to check their balance and recharge their mobile account using their smartphone camera and recognize text 
+ using text recognition technology. </p>
 
  # Features
 
