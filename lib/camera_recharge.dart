@@ -165,8 +165,8 @@ class _CameraRechargePage extends State<CameraRechargePage> {
     }
     scannedText = scannedText.replaceAll(RegExp(r'[^0-9]'), '');
     if (scannedText.trim().length == 14) {
-      // await FlutterPhoneDirectCaller.callNumber('*805*$scannedText#');
-      scannedText = "charged";
+      await FlutterPhoneDirectCaller.callNumber('*805*$scannedText#');
+      scannedText = "";
     }
     //  else {
     //   scannedText = "Error please scan again.";
