@@ -168,9 +168,9 @@ class _CameraRechargePage extends State<CameraRechargePage> {
       await FlutterPhoneDirectCaller.callNumber('*805*$scannedText#');
       scannedText = "";
     }
-    //  else {
-    //   scannedText = "Error please scan again.";
-    // }
+     else {
+      scannedText = "Error please scan again.";
+    }
     textScanning = false;
     setState(() {});
   }
