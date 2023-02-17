@@ -23,7 +23,7 @@ Here are some screenshots of the app:
 
 # Requirements
 - iOS or Android smartphone with a camera
-- Internet connection
+- No Internet connection Required
 
 # Installation
 1. Clone the repository
